@@ -1,4 +1,3 @@
-import { MentionNodeData } from '@udecode/plate'
 
 export const MENTIONABLES = [
   { value: '0', name: 'Aayla Secura', email: 'aayla_secura@force.com' },

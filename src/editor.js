@@ -1,32 +1,14 @@
-import React, { useState } from 'react';
-import {createElement} from './config/utils'
-
+import 'tippy.js/dist/tippy.css'
+import './index.css'
+import React, { useMemo } from 'react'
 import {
-    Plate,
     ELEMENT_IMAGE,
-    ELEMENT_H1,
-    ELEMENT_H2,
-    ELEMENT_H3,
-    ELEMENT_H4,
-    ELEMENT_H5,
-    ELEMENT_H6,
-    ELEMENT_BLOCKQUOTE,
-    ELEMENT_CODE_BLOCK,
-    ELEMENT_CODE_LINE,
     ELEMENT_PARAGRAPH,
-    MARK_BOLD,
-    MARK_ITALIC,
-    MARK_UNDERLINE,
-    MARK_STRIKETHROUGH,
-    MARK_CODE,
-
-
     createPlateComponents,
     createPlateOptions,
     HeadingToolbar,
     MentionSelect,
-    PlatePlugin,
-
+    Plate,
     ToolbarSearchHighlight,
     createAlignPlugin,
     createAutoformatPlugin,
@@ -64,7 +46,6 @@ import {
     withProps,
     MentionElement,
     ELEMENT_MENTION,
-    SPEditor,
     MARK_COLOR,
     withStyledProps,
     StyledLeaf,
@@ -74,128 +55,141 @@ import {
     createDeserializeMDPlugin,
     createDeserializeCSVPlugin,
     createDeserializeAstPlugin,
-  } from '@udecode/plate'
-import { editableProps } from './config/pluginOptions';
+} from '@udecode/plate'
+import {
+    createExcalidrawPlugin,
+    ELEMENT_EXCALIDRAW,
+    ExcalidrawElement,
+} from '@udecode/plate-excalidraw'
+import { initialValuePlayground } from './config/initialValues'
+import {
+    editableProps,
+    optionsExitBreakPlugin,
+    optionsMentionPlugin,
+    optionsResetBlockTypePlugin,
+    optionsSoftBreakPlugin,
+    optionsAutoformat,
+} from './config/pluginOptions'
+import { renderMentionLabel } from './config/renderMentionLabel'
+import { BallonToolbarMarks, ToolbarButtons } from './config/Toolbars'
+import { withStyledPlaceHolders } from './config/withStyledPlaceHolders'
+import { withStyledDraggables } from './config/withStyledDraggables'
+import { DndProvider } from 'react-dnd'
+import { HTML5Backend } from 'react-dnd-html5-backend'
+import { Search } from '@styled-icons/material/Search'
+// import { HistoryEditor } from 'slate-history'
+// import { ReactEditor } from 'slate-react'
 
 
-const pluginsBasic = [
-    // editor
-    createReactPlugin(),          // withReact
-    createHistoryPlugin(),        // withHistory
+const id = 'Examples/Playground'
 
-    // elements
-    createParagraphPlugin(),      // paragraph element
-    createBlockquotePlugin(),     // blockquote element
-    createCodeBlockPlugin(),      // code block element
-    createHeadingPlugin(),        // heading elements
-
-    // marks
-    createBoldPlugin(),           // bold mark
-    createItalicPlugin(),         // italic mark
-    createUnderlinePlugin(),      // underline mark
-    createStrikethroughPlugin(),  // strikethrough mark
-    createCodePlugin(),           // code mark
-];
-
-// Quick helper to create a block element with (marked) text
-// export const createElement = (
-//     text = '',
-//     {
-//         type = ELEMENT_PARAGRAPH,
-//         mark,
-//     }) => {
-//     const leaf = { text };
-//     if (mark) {
-//         leaf[mark] = true;
-//     }
-
-//     return {
-//         type,
-//         children: [leaf],
-//     };
-// };
-
-
-
-
-const initialValueBasicElements = [
-    createElement('🧱 Elements', { type: ELEMENT_H1 }),
-    createElement('🔥 Basic Elements', { type: ELEMENT_H2 }),
-    createElement('These are the most common elements, known as blocks:'),
-    createElement('Heading 1', { type: ELEMENT_H1 }),
-    createElement('Heading 2', { type: ELEMENT_H2 }),
-    createElement('Heading 3', { type: ELEMENT_H3 }),
-    createElement('Heading 4', { type: ELEMENT_H4 }),
-    createElement('Heading 5', { type: ELEMENT_H5 }),
-    createElement('Heading 6', { type: ELEMENT_H6 }),
-    createElement('Blockquote', { type: ELEMENT_BLOCKQUOTE }),
-    {
-        type: ELEMENT_CODE_BLOCK,
-        children: [
-            {
-                type: ELEMENT_CODE_LINE,
-                children: [
-                    {
-                        text: "const a = 'Hello';",
-                    },
-                ],
-            },
-            {
-                type: ELEMENT_CODE_LINE,
-                children: [
-                    {
-                        text: "const b = 'World';",
-                    },
-                ],
-            },
-        ],
-    },
-    createElement('💅 Marks', { type: ELEMENT_H1 }),
-    createElement('💧 Basic Marks', { type: ELEMENT_H2 }),
-    createElement(
-        'The basic marks consist of text formatting such as bold, italic, underline, strikethrough, subscript, superscript, and code.'
-    ),
-    createElement(
-        'You can customize the type, the component and the hotkey for each of these.'
-    ),
-    createElement('This text is bold.', { mark: MARK_BOLD }),
-    createElement('This text is italic.', { mark: MARK_ITALIC }),
-    createElement('This text is underlined.', {
-        mark: MARK_UNDERLINE,
+let components = createPlateComponents({
+    [ELEMENT_MENTION]: withProps(MentionElement, {
+        renderLabel: renderMentionLabel,
     }),
-    {
-        type: ELEMENT_PARAGRAPH,
-        children: [
-            {
-                text: 'This text is bold, italic and underlined.',
-                [MARK_BOLD]: true,
-                [MARK_ITALIC]: true,
-                [MARK_UNDERLINE]: true,
-            },
-        ],
-    },
-    createElement('This is a strikethrough text.', {
-        mark: MARK_STRIKETHROUGH,
+    [ELEMENT_EXCALIDRAW]: ExcalidrawElement,
+    [MARK_COLOR]: withStyledProps(StyledLeaf, {
+        leafProps: {
+            [MARK_COLOR]: ['color'],
+        },
     }),
-    createElement('This is an inline code.', { mark: MARK_CODE }),
-]
+    [MARK_BG_COLOR]: withStyledProps(StyledLeaf, {
+        leafProps: {
+            [MARK_BG_COLOR]: ['backgroundColor'],
+        },
+    }),
+    // customize your components by plugin key
+})
+components = withStyledPlaceHolders(components)
+components = withStyledDraggables(components)
 
-export default function PEditor() {
-    const [debugValue, setDebugValue] = useState(null);
-    const onChangeDebug = (newValue) => {
-        setDebugValue(`value ${JSON.stringify(newValue)}`);
-    }
+const options = createPlateOptions({
+    // customize your options by plugin key
+})
+
+export default function PEditor2() {
+    const { setSearch, plugin: searchHighlightPlugin } = useFindReplacePlugin()
+    const { getMentionSelectProps, plugin: mentionPlugin } = useMentionPlugin(
+        optionsMentionPlugin
+    )
+
+    const pluginsMemo = useMemo(() => {
+        const plugins = [
+            createReactPlugin(),
+            createHistoryPlugin(),
+            createParagraphPlugin(),
+            createBlockquotePlugin(),
+            createTodoListPlugin(),
+            createHeadingPlugin(),
+            createImagePlugin(),
+            createLinkPlugin(),
+            createListPlugin(),
+            createTablePlugin(),
+            createMediaEmbedPlugin(),
+            createCodeBlockPlugin(),
+            createExcalidrawPlugin(),
+            createAlignPlugin(),
+            createBoldPlugin(),
+            createCodePlugin(),
+            createItalicPlugin(),
+            createHighlightPlugin(),
+            createUnderlinePlugin(),
+            createStrikethroughPlugin(),
+            createSubscriptPlugin(),
+            createSuperscriptPlugin(),
+            createFontColorPlugin(),
+            createFontBackgroundColorPlugin(),
+            createKbdPlugin(),
+            createNodeIdPlugin(),
+            createDndPlugin(),
+            createAutoformatPlugin(optionsAutoformat),
+            createResetNodePlugin(optionsResetBlockTypePlugin),
+            createSoftBreakPlugin(optionsSoftBreakPlugin),
+            createExitBreakPlugin(optionsExitBreakPlugin),
+            createTrailingBlockPlugin({
+                type: ELEMENT_PARAGRAPH,
+            }),
+            createSelectOnBackspacePlugin({
+                allow: [ELEMENT_IMAGE, ELEMENT_EXCALIDRAW],
+            }),
+            mentionPlugin,
+            searchHighlightPlugin,
+        ]
+
+        plugins.push(
+            ...[
+                createDeserializeMDPlugin({ plugins }),
+                createDeserializeCSVPlugin({ plugins }),
+                createDeserializeHTMLPlugin({ plugins }),
+                createDeserializeAstPlugin({ plugins }),
+            ]
+        )
+
+        return plugins
+    }, [mentionPlugin, searchHighlightPlugin])
 
     return (
-        <div>
+        <DndProvider backend={HTML5Backend}>
             <Plate
-                id="2"
+                id={id}
+                plugins={pluginsMemo}
+                components={components}
+                options={options}
                 editableProps={editableProps}
-                initialValue={initialValueBasicElements}
-                plugins={pluginsBasic}
-                onChange={onChangeDebug}
-            />
-            {debugValue}
-        </div>
-    );
+                initialValue={initialValuePlayground}
+            >
+                <ToolbarSearchHighlight icon={Search} setSearch={setSearch} />
+                <HeadingToolbar>
+                    <ToolbarButtons />
+                </HeadingToolbar>
+
+                <BallonToolbarMarks />
+
+                <MentionSelect
+                    {...getMentionSelectProps()}
+                    renderLabel={renderMentionLabel}
+                />
+            </Plate>
+        </DndProvider>
+    )
 }

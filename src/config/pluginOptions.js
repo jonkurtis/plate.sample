@@ -5,15 +5,10 @@ import {
   ELEMENT_TD,
   ELEMENT_TODO_LI,
   ELEMENT_IMAGE,
-  ExitBreakPluginOptions,
   createPlateOptions,
   isBlockAboveEmpty,
   isSelectionAtBlockStart,
   KEYS_HEADING,
-  WithAutoformatOptions,
-  MentionNodeData,
-  ResetBlockTypePluginOptions,
-  SoftBreakPluginOptions,
 } from '@udecode/plate'
 
 import { MENTIONABLES } from './mentionables'

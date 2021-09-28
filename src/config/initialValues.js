@@ -74,7 +74,7 @@ export const initialValueEmbeds = (
       embedded nodes. For example, this one contains an input element that lets
       you change the video being rendered!
     </hp>
-    <hmediaembed url="https://player.vimeo.com/video/26689853">
+    <hmediaembed url="https://player.vimeo.com/video/281407140">
       <htext />
     </hmediaembed>
     <hp>
@@ -1063,6 +1063,7 @@ export const initialValuePlayground = getNodesWithRandomId([
   ...initialValueMentions,
   ...initialValueImages,
   ...initialValueEmbeds,
+  ...initialValueExcalidraw,
   ...initialValueAutoformat,
   ...initialValueSoftBreak,
   ...initialValueExitBreak,

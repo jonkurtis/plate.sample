@@ -1,5 +1,4 @@
 import {
-  AutoformatRule,
   ELEMENT_BLOCKQUOTE,
   ELEMENT_CODE_BLOCK,
   ELEMENT_DEFAULT,
@@ -11,7 +10,6 @@ import {
   ELEMENT_H6,
   getPlatePluginType,
   insertEmptyCodeBlock,
-  SPEditor,
 } from '@udecode/plate'
 import { preFormat } from './autoformatUtils'
 

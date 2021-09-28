@@ -1,7 +1,6 @@
 import 'tippy.js/animations/scale.css'
 import 'tippy.js/dist/tippy.css'
 import React from 'react'
-import { TippyProps } from '@tippyjs/react'
 import {
   addColumn,
   addRow,

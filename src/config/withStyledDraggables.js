@@ -19,7 +19,6 @@ import {
   withDraggables,
 } from '@udecode/plate'
 import Tippy from '@tippyjs/react'
-import { TippyProps } from '@tippyjs/react'
 import 'twin.macro'
 
 const GrabberTooltipContent = () => (

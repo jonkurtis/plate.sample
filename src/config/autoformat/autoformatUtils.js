@@ -1,12 +1,9 @@
 import {
-  AutoformatBlockRule,
   ELEMENT_CODE_BLOCK,
   ELEMENT_CODE_LINE,
   getParent,
   isElement,
   isType,
-  SPEditor,
-  TEditor,
   toggleList,
   unwrapList,
 } from '@udecode/plate'
