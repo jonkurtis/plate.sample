@@ -81,7 +81,7 @@ import { Search } from '@styled-icons/material/Search'
 // import { ReactEditor } from 'slate-react'
 
 
-const id = 'Examples/Playground'
+const id = 'G4_Notebook/Playground'
 
 let components = createPlateComponents({
     [ELEMENT_MENTION]: withProps(MentionElement, {

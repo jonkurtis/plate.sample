@@ -1,4 +1,5 @@
 
+//TODO from web serivce
 export const MENTIONABLES = [
   { value: '0', name: 'Aayla Secura', email: 'aayla_secura@force.com' },
   { value: '1', name: 'Adi Gallia', email: 'adi_gallia@force.com' },
