@@ -30,7 +30,7 @@ const GrabberTooltipContent = () => (
   </div>
 )
 
-export const grabberTooltipProps: TippyProps = {
+export const grabberTooltipProps = {
   content: <GrabberTooltipContent />,
   placement: 'bottom',
   arrow: false,
@@ -41,7 +41,7 @@ export const grabberTooltipProps: TippyProps = {
   theme: 'small',
 }
 
-export const withStyledDraggables = (components: any) => {
+export const withStyledDraggables = (components) => {
   return withDraggables(components, [
     {
       keys: [ELEMENT_PARAGRAPH, ELEMENT_UL, ELEMENT_OL],

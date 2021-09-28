@@ -21,6 +21,7 @@
     "@udecode/plate-common": "^3.4.0",
     "@udecode/plate-core": "^3.4.0",
     "@udecode/plate-dnd": "^3.5.1",
+    "@udecode/plate-excalidraw": "^3.5.1",
     "@udecode/plate-find-replace": "^3.4.0",
     "@udecode/plate-find-replace-ui": "^4.2.0",
     "@udecode/plate-heading": "^3.4.0",
@@ -47,6 +48,7 @@
     "@udecode/plate-styled-components": "^3.5.1",
     "@udecode/plate-table": "^3.4.0",
     "@udecode/plate-table-ui": "^4.2.0",
+    "@udecode/plate-test-utils": "^3.2.0",
     "@udecode/plate-toolbar": "^4.2.0",
     "@udecode/plate-trailing-block": "^3.4.0",
     "react": "^17.0.2",
@@ -57,7 +59,9 @@
     "slate-hyperscript": "^0.66.0",
     "slate-react": "^0.66.4",
     "styled-components": "^5.3.1",
+    "styled-icons": "^10.43.0",
     "tippy.js": "^6.3.1",
+    "twin.macro": "^2.7.0",
     "web-vitals": "^1.0.1"
   },
   "scripts": {

@@ -86,7 +86,7 @@ export function createElement(
     type = ELEMENT_PARAGRAPH,
     mark=undefined,
   } = element | {};
-  console.log(`createElement( text=${text}, type=${type}, mark=${mark})`)
+  // console.log(`createElement( text=${text}, type=${type}, mark=${mark})`)
 
   const leaf = { text }
   if (mark) {
